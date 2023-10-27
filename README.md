@@ -1,28 +1,12 @@
-# Create T3 App
+# PII Remover
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is project made by the team at [RoboCop](https://getrobocop.com/) to help remove PII from documents.
 
-## What's next? How do I make an app with this?
+## What happens to my data? How is PII removed
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+At no point in the PII removal process is data ever collected by anyone. We have made this project bare bones and public on github to make this point clear
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+The only service used is Azure Gov's [PII recognition tool](https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview). Data is never stored and is encrypted in transit, as per the PII service [security rules](https://learn.microsoft.com/en-us/legal/cognitive-services/language-service/data-privacy?context=/azure/cognitive-services/language-service/context/context#how-is-data-retained-and-what-customer-controls-are-available)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Feel free to reach out to us a team@getrobocop.com for any questions or concerns.
 
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
