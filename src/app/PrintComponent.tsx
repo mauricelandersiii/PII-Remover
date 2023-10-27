@@ -1,4 +1,4 @@
-// This file exist to enable downloading as PDF
+// This file exist to enable downloading as PDF it's main purpose is to pass a forwardRef
 
 import { forwardRef } from "react";
 

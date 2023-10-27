@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import PrintableContent from "./PrintComponent";
 
 const toolDescription = `This is a tool that allows you to redact PII from a text or a pdf document! \n
-Our PII tool should be seen as a helper, while we try to remove all instances of PII it is still important to double check. Importantly this PII tool does not save nor allow anyone but you to see the redacted or cleaned text.`;
+Our PII tool should be seen as a helper, while we try to remove all instances of PII it is still important to double check. Importantly this PII tool does not save any data at all, check out our github for more information on security.`;
 
 export default function HomePage() {
   const [input, setInput] = useState("");
@@ -24,7 +25,6 @@ export default function HomePage() {
     formData.append("text", input);
 
     setInput("");
-    setFiles(undefined);
     const response = await fetch("/api/pii", {
       method: "POST",
       body: formData,
@@ -32,20 +32,28 @@ export default function HomePage() {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { redacted } = await response.json();
-
+    const { error, redacted } = await response.json();
     setOutput(redacted as string);
+    if (error) {
+      setOutput(`Error: ${error}`);
+    }
     setLoading(false);
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center overflow-auto bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <main className="flex min-h-screen flex-col items-center justify-center overflow-auto">
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
           <PrintableContent text={output} ref={printableRef} />
         </div>
       </dialog>
       <div className="flex h-screen w-full flex-col items-center justify-evenly gap-4 bg-background p-8 text-white">
+        <Link
+          href={"https://github.com/mauricelandersiii/PII-Remover"}
+          className="absolute bottom-1 right-4 text-sm text-white underline"
+        >
+          Github
+        </Link>
         <div className="flex items-center gap-2">
           <h1 className=" text-4xl font-semibold">PII Removal Tool</h1>
           <div
@@ -72,8 +80,11 @@ export default function HomePage() {
                 console.log(e.target.files);
                 setFiles(e.target.files ?? undefined);
               }}
+              accept=".pdf"
             />
-            <p className="mt-1 px-1 text-sm font-light text-subtext"></p>
+            <p className="mt-1 px-1 text-sm font-light text-subtext">
+              Accepts PDFs{" "}
+            </p>
           </div>
         </div>
         <button
