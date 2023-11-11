@@ -3,7 +3,7 @@ import {
   TextAnalyticsClient,
   type PiiEntity,
 } from "@azure/ai-text-analytics";
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import pdf from "pdf-parse";
 import { env } from "~/env.mjs";
 
@@ -63,9 +63,10 @@ export async function POST(request: NextRequest) {
   // return Response.json("hello", { status: 200 });
 }
 
-// This function replaces the text with the category instead of '*'
-// For example My name is Thomas -> My name is [Person]
+// The default is to replace PII '*'. However it would be more helpful it we replaced it with the type of PII
+// For example My number is 555-555-5555 -> My number is [PhoneNumber]
 function redactText(text: string, entities: PiiEntity[]): string {
+  const safeCategories = ["Person"]; // We received feedback that names don't need to be redacted if all other PII is redacted
   let redactedText = text;
 
   // Sort entities in descending order of their offset
@@ -77,7 +78,7 @@ function redactText(text: string, entities: PiiEntity[]): string {
     const category = entity.category;
     redactedText =
       redactedText.substring(0, start) +
-      `[${category}]` +
+      (safeCategories.includes(category) ? entity.text : `[${category}]`)+
       redactedText.substring(end);
   }
 
